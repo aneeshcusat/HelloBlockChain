@@ -1,4 +1,4 @@
-package hellobc;
+/*package hellobc;
 
 public class HelloBC {
   public static void main(String[] args) {
@@ -6,4 +6,4 @@ public class HelloBC {
 	  System.out.println("Hello Block Chain");
 	  
   }
-}
+}*/
