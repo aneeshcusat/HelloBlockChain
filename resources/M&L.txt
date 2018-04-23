@@ -1,0 +1,9 @@
+Mistakes & Learnings:
+
+
+Gradle Beginner's tutorial:
+https://spring.io/guides/gs/gradle/
+
+
+Spring Boot Implementation Tutorial with Gradle:
+https://spring.io/guides/gs/spring-boot/
