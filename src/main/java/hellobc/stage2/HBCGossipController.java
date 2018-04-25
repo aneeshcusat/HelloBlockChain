@@ -107,14 +107,10 @@ public class HBCGossipController implements ApplicationRunner {
 		favMovieBean.setMovieName(randomMovie);
 		favMovieBean.setVersionNum(version);
 
-		updateState(port, favMovieBean);
+		state.put(port, favMovieBean);
 
-		LOGGER.debug("Favourite movie forever is" + favMovieBean.getMovieName());
-		randomMovie = mbList.get(rand.nextInt(250));
-		MovieBean peerDummyBean = new MovieBean();
-		peerDummyBean.setMovieName(mbList.get(rand.nextInt(250)));
-		peerDummyBean.setVersionNum(0);
-		updateState(peerPort, peerDummyBean);
+		if (peerPort != null)
+		state.put(peerPort, favMovieBean);
 
 	}
 
@@ -132,7 +128,17 @@ public class HBCGossipController implements ApplicationRunner {
 
 		if (port == null)
 			return;
-
+		if(port != this.port) {
+		try {
+		restClient.pingNode(port);
+		}
+		catch (Exception e) {
+			LOGGER.debug("Error while pinging to peer port :" + port + " .Removing port" + " from map");
+			state.remove(port);
+		
+		}
+		}
+		
 		MovieBean tempMvBean = state.get(port);
 
 		if (tempMvBean == null || tempMvBean.getMovieName() == null) {
@@ -147,6 +153,9 @@ public class HBCGossipController implements ApplicationRunner {
 					+ movieBean.getVersionNum());
 			state.put(port, movieBean);
 
+		}
+		else if(port == this.port) {
+			this.version = tempMvBean.getVersionNum();
 		}
 	}
 
@@ -164,9 +173,9 @@ public class HBCGossipController implements ApplicationRunner {
 		favMovieBean.setMovieName(randomMovie);
 		version = version + 1;
 		favMovieBean.setVersionNum(version);
-		LOGGER.info("Favourite movie changes to: " + favMovieBean.getMovieName());
+		LOGGER.info("Favourite movie changes to: " + favMovieBean.getMovieName() +" & Version is: "+favMovieBean.getVersionNum());
 
-		updateState(port, favMovieBean);
+		state.put(port, favMovieBean);
 	}
 
 	/**
@@ -187,7 +196,7 @@ public class HBCGossipController implements ApplicationRunner {
 			Map<String, MovieBean> peerResponseMap = new HashMap<String, MovieBean>();
 			try {
 				requestJson = mapper.writeValueAsString(state);
-				LOGGER.debug("Map JSON: " + requestJson);
+				LOGGER.debug("Map JSON for port: "+port+" is: " + requestJson);
 
 				peerResponseJson = restClient.call(port, requestJson);
 
@@ -199,13 +208,9 @@ public class HBCGossipController implements ApplicationRunner {
 				peerResponseMap.forEach((nodePort, nodeMovieBean) -> updateState(nodePort, nodeMovieBean));
 
 			} catch (Exception e) {
-				LOGGER.error("Error while connecting to peer port :" + port + " .Removing port" + " from list");
+				LOGGER.error("Error while connecting to peer port :" + port + " .Removing port" + " from map");
 				state.remove(port);
-
-				LOGGER.info("Printing state after removing port*************************************************");
-				state.forEach((port1, movieBean1) -> LOGGER.info(port1 + " likes " + movieBean1.getMovieName()));
-				LOGGER.info("*************************************************");
-
+			
 			}
 
 		});
@@ -218,7 +223,7 @@ public class HBCGossipController implements ApplicationRunner {
 
 	@RequestMapping(value = "/gossip", method = RequestMethod.POST)
 	public ResponseEntity<?> gossip(@RequestBody String inputJson) {
-		LOGGER.info("Input JSON: " + inputJson);
+		LOGGER.debug("Input JSON: " + inputJson);
 
 		Map<String, MovieBean> map = new HashMap<String, MovieBean>();
 		ObjectMapper mapper = new ObjectMapper();
@@ -244,6 +249,13 @@ public class HBCGossipController implements ApplicationRunner {
 
 		return new ResponseEntity<String>(responseJson, HttpStatus.OK);
 
+	}
+	
+	@RequestMapping(value = "/ping", method = RequestMethod.GET)
+	public ResponseEntity<?> ping() {
+		LOGGER.debug("Ping Success");
+		return new ResponseEntity<String>("Success", HttpStatus.OK);
+		
 	}
 
 }

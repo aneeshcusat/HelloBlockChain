@@ -52,11 +52,23 @@ public class RSAEncryption {
         return plainTextToVerify.equalsIgnoreCase(new String(decryptedMessage));
     }
     
+    /**
+     * Method converts public key to byte array and then to String
+     * @param publicKey
+     * @return
+     */
     public String convertPublicKeyToString(PublicKey publicKey) {
     	return Base64.getEncoder().encodeToString(publicKey.getEncoded());
     	
     }
     
+    /**
+     * Method converts String to byte array and then to Public key
+     * @param publicKeyString
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
     public PublicKey convertStringToPublicKey(String publicKeyString) throws NoSuchAlgorithmException, InvalidKeySpecException {
     	byte[] publicKeyBytes = Base64.getDecoder().decode(publicKeyString);
     	KeyFactory kf = KeyFactory.getInstance("RSA"); 
@@ -64,10 +76,22 @@ public class RSAEncryption {
     	
     }
     
+    /**
+     * Method converts private key to byte array and then to String
+     * @param privateKey
+     * @return
+     */
     public  String convertPrivateKeyToString(PrivateKey privateKey) {
     	return Base64.getEncoder().encodeToString(privateKey.getEncoded());
     }
     
+    /**
+     * Method converts String to byte array and then to public key
+     * @param privateKeyString
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
     public PrivateKey convertStringToPrivateKey(String privateKeyString) throws NoSuchAlgorithmException, InvalidKeySpecException {
     	byte[] privateKeyBytes = Base64.getDecoder().decode(privateKeyString);
     	KeyFactory kf = KeyFactory.getInstance("RSA"); 

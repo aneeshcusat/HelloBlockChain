@@ -33,5 +33,12 @@ public class RestClient {
 			return restTemplate.postForObject("http://localhost:"+port+"/gossip", request, String.class);
 			
 	 }
+	 
+	 public String pingNode(String port) throws Exception {
+		 
+		 ClientHttpRequestFactory requestFactory = getClientHttpRequestFactory();
+			RestTemplate restTemplate = new RestTemplate(requestFactory);
+			return restTemplate.getForObject("http://localhost:"+port+"/ping", String.class);
+	 }
 
 }
