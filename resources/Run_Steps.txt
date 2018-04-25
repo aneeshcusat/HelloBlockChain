@@ -1,0 +1,59 @@
+Command to build and start server with custom port :
+
+gradle build && java -Dserver.port=9999  -jar build/libs/hbc-0.1.0.jar
+
+command to build and start server with custom port and peer port to listen to:
+
+gradle build && java -Dserver.port=9999  -jar build/libs/hbc-0.1.0.jar --port=9999 --peerport=8888
+
+
+command to build and start server with custom port mentioned as server argument and peer port to listen to:
+
+gradlew build && java -Dserver.port=9999  -jar build/libs/hbc-0.1.0.jar --peerport=8888
+
+Checking user balance :
+curl localhost:9999/balance?user=ANG
+
+Adding new user :
+curl -X POST localhost:9999/users?user=ANG1
+
+Money Transfer :
+curl -d "from=ANG&to=ANG1&amount=5"  localhost:9999/transfers
+
+Spring Tutorials :
+
+Setting the server port through code:
+https://howtodoinjava.com/spring/spring-boot/change-tomcat-server-default-port-8080/
+
+Get command line argument in code:
+http://www.opencodez.com/java/passing-command-line-arguments-java-spring-boot-example.htm
+
+Expose as rest service in code reading and pass json in controller : 
+http://websystique.com/spring-boot/spring-boot-rest-api-example/
+
+Convert JSON to map and map to JSON :
+https://www.mkyong.com/java/how-to-convert-java-map-to-from-json-jackson/
+
+RSA Encryption :
+https://gist.github.com/dmydlarz/32c58f537bb7e0ab9ebf
+
+
+Learning & Issues:
+
+Not able to set the port by getting it as a non option from command line argument and 
+setting it because container starts before it,
+so right now going to use port use -Dserver option and peer port from non-option line 
+argument.
+
+SHA-256 Implementation java
+
+http://www.baeldung.com/sha-256-hashing-java
+
+Java Stream Operations
+http://java.amitph.com/2014/02/java-8-streams-api-terminal-operations.html
+
+Code to convert String to public and private keys :
+https://gist.github.com/destan/b708d11bd4f403506d6d5bb5fe6a82c5
+
+Spring Project Repo:
+https://github.com/spring-guides/gs-spring-boot.git

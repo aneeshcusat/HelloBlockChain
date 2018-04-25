@@ -12,3 +12,9 @@ https://spring.io/guides/gs/spring-boot/
 Generate the eclipse configuration files:
 Run command: gradlew eclipse 
 https://docs.gradle.org/current/userguide/eclipse_plugin.html
+
+Get the server port in code:
+https://stackoverflow.com/a/36391145/5383764
+
+Application logging guide:
+https://dzone.com/articles/configuring-logback-with-spring-boot
