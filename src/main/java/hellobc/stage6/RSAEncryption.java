@@ -1,4 +1,4 @@
-package hellobc.stage3;
+package hellobc.stage6;
 
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -20,7 +20,7 @@ public class RSAEncryption {
    
 	
 	
-    public  KeyPair buildKeyPair() {
+    public static KeyPair buildKeyPair() {
         final int keySize = 2048;
         KeyPairGenerator keyPairGenerator = null;
         try { 
@@ -36,7 +36,7 @@ public class RSAEncryption {
    
     
 
-    public  byte[] sign(PrivateKey privateKey, String message) throws Exception {
+    public static byte[] sign(PrivateKey privateKey, String message) throws Exception {
         Cipher cipher = Cipher.getInstance("RSA");  
         cipher.init(Cipher.ENCRYPT_MODE, privateKey);  
 
@@ -44,7 +44,7 @@ public class RSAEncryption {
     }
     
     
-    public  boolean verify(PublicKey publicKey, byte [] encrypted, String plainTextToVerify) throws Exception {
+    public static boolean verify(PublicKey publicKey, byte [] encrypted, String plainTextToVerify) throws Exception {
         Cipher cipher = Cipher.getInstance("RSA");  
         cipher.init(Cipher.DECRYPT_MODE, publicKey);
         byte[] decryptedMessage = cipher.doFinal(encrypted);
@@ -57,7 +57,7 @@ public class RSAEncryption {
      * @param publicKey
      * @return
      */
-    public String convertPublicKeyToString(PublicKey publicKey) {
+    public static String convertPublicKeyToString(PublicKey publicKey) {
     	return Base64.getEncoder().encodeToString(publicKey.getEncoded());
     	
     }
@@ -69,7 +69,7 @@ public class RSAEncryption {
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
      */
-    public PublicKey convertStringToPublicKey(String publicKeyString) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static PublicKey convertStringToPublicKey(String publicKeyString) throws NoSuchAlgorithmException, InvalidKeySpecException {
     	byte[] publicKeyBytes = Base64.getDecoder().decode(publicKeyString);
     	KeyFactory kf = KeyFactory.getInstance("RSA"); 
     	return kf.generatePublic(new X509EncodedKeySpec(publicKeyBytes));
@@ -81,7 +81,7 @@ public class RSAEncryption {
      * @param privateKey
      * @return
      */
-    public  String convertPrivateKeyToString(PrivateKey privateKey) {
+    public static String convertPrivateKeyToString(PrivateKey privateKey) {
     	return Base64.getEncoder().encodeToString(privateKey.getEncoded());
     }
     
@@ -92,7 +92,7 @@ public class RSAEncryption {
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
      */
-    public PrivateKey convertStringToPrivateKey(String privateKeyString) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static PrivateKey convertStringToPrivateKey(String privateKeyString) throws NoSuchAlgorithmException, InvalidKeySpecException {
     	byte[] privateKeyBytes = Base64.getDecoder().decode(privateKeyString);
     	KeyFactory kf = KeyFactory.getInstance("RSA"); 
     	return kf.generatePrivate(new PKCS8EncodedKeySpec(privateKeyBytes));
@@ -104,21 +104,21 @@ public class RSAEncryption {
      * @param privateKey
      * @return
      */
-    public  String convertByteArrayToString(byte[] byteArray) {
+    public static String convertByteArrayToString(byte[] byteArray) {
     	return Base64.getEncoder().encodeToString(byteArray);
     }
     
     
-    public  byte[] convertStringToByteArray(String inputString) {
+    public static byte[] convertStringToByteArray(String inputString) {
     	return Base64.getDecoder().decode(inputString);
     }
     
     
-    public  String sign(String privateKey, String message) throws Exception {
+    public  static String sign(String privateKey, String message) throws Exception {
     	return convertByteArrayToString(sign(convertStringToPrivateKey(privateKey), message));
     }
     
-    public  boolean verify(String publicKey, String encrypted, String plainTextToVerify) throws Exception {
+    public static boolean verify(String publicKey, String encrypted, String plainTextToVerify) throws Exception {
         Cipher cipher = Cipher.getInstance("RSA");  
         cipher.init(Cipher.DECRYPT_MODE, convertStringToPublicKey(publicKey));
         byte[] decryptedMessage = cipher.doFinal(convertStringToByteArray(encrypted));

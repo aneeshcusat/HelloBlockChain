@@ -28,7 +28,7 @@ public class RSAEncryptionDemo {
         System.out.println("Public Key String: "+publicKeyString);
         
         //Public Key String to Public Key
-        publicKey = rsaEncryption.convertStringToPublicKey(publicKeyString);
+        //publicKey = rsaEncryption.convertStringToPublicKey(publicKeyString);
         
         //Private Key  byte array to String
         String privateKeyString = rsaEncryption.convertPrivateKeyToString(privateKey);
@@ -36,20 +36,20 @@ public class RSAEncryptionDemo {
         System.out.println("Private Key String: "+privateKeyString);
         
         //Private Key String array to private Key
-        privateKey = rsaEncryption.convertStringToPrivateKey(privateKeyString);
+        //privateKey = rsaEncryption.convertStringToPrivateKey(privateKeyString);
         
         
         // encrypt the message
-        byte[] encrypted = null;
+        String encryptedString = null;
         
-		encrypted = rsaEncryption.sign(privateKey, "This is a secret message");
+        encryptedString = rsaEncryption.sign(privateKeyString, "This is a secret message");
 		   
         
         
         // decrypt the message
 			boolean isVerify = false;
 		
-			isVerify = rsaEncryption.verify(publicKey, encrypted, "This is a secret message");
+			isVerify = rsaEncryption.verify(publicKeyString, encryptedString, "This is a secret message");
 			
 			System.out.println("Is Verified: "+isVerify);     // This is a secret message
 			

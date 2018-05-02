@@ -1,6 +1,5 @@
 Mistakes & Learnings:
 
-
 Gradle Beginner's tutorial:
 https://spring.io/guides/gs/gradle/
 
@@ -18,3 +17,9 @@ https://stackoverflow.com/a/36391145/5383764
 
 Application logging guide:
 https://dzone.com/articles/configuring-logback-with-spring-boot
+
+Convert key to byte Array and reverse
+https://stackoverflow.com/a/22077915/5383764
+
+Convert byte array to String and reverse
+https://stackoverflow.com/a/43562937/5383764
